@@ -100,6 +100,5 @@ void ShowData(BasicInformation student){
     cout << "Carrera: " << student.career << endl;
     cout << "Curso: " << student.course << endl;
     cout << "Sección: " << student.section << endl;
-
-    
+   
 }
