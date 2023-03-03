@@ -49,16 +49,16 @@ void DatosGenerales(){
 
 
         // ask the information
-        cout << "\n\tIngrese su nombre completo: "; getline(cin, student.nombre,'\n');
-        cout << "\n\tIngrese su edad: "; cin >> student.age;
+        cout << FGYellow << "\n\tIngrese su nombre completo: "<< blank; getline(cin, student.nombre,'\n');
+        cout << FGYellow <<"\n\tIngrese su edad: "<< blank; cin >> student.age;
         cin.ignore();
-        cout << "\n\tIngrese su estado civil: "; getline(cin, student.state,'\n');
-        cout << "\n\tIngrese su direccion "; getline(cin, student.address,'\n');
-        cout << "\n\tIngrese su e-mail: "; getline(cin, student.email,'\n');
-        cout << "\n\tIngrese su sede: "; getline(cin, student.sede,'\n');
-        cout << "\n\tIngrese su carrera: "; getline(cin, student.career,'\n');
-        cout << "\n\tIngrese su curso: "; getline(cin, student.course,'\n');
-        cout << "\n\tIngrese su seccion: "; cin >> student.section;
+        cout << FGYellow <<"\n\tIngrese su estado civil: "<< blank; getline(cin, student.state,'\n');
+        cout << FGYellow <<"\n\tIngrese su direccion "<< blank; getline(cin, student.address,'\n');
+        cout << FGYellow <<"\n\tIngrese su e-mail: "<< blank; getline(cin, student.email,'\n');
+        cout << FGYellow <<"\n\tIngrese su sede: "<< blank; getline(cin, student.sede,'\n');
+        cout << FGYellow <<"\n\tIngrese su carrera: "<< blank; getline(cin, student.career,'\n');
+        cout << FGYellow <<"\n\tIngrese su curso: "<< blank; getline(cin, student.course,'\n');
+        cout << FGYellow <<"\n\tIngrese su seccion: "<< blank; cin >> student.section;
 
         // show the infomation
         ShowData(student);
@@ -91,7 +91,7 @@ void ShowData(BasicInformation student){
 
     system("figlet -c 'Registrado'"); // show a message above of the information
     cout<<" ---------------------------------------------------------------------------------"<<endl;
-    cout << FGYellow <<"\tNombre completo: " << blank <<student.nombre << endl;
+    cout << FGYellow <<"\tNombre completo: "<< blank <<student.nombre << endl;
     cout << FGYellow <<"\n\tEdad: " << blank << student.age << endl;
     cout << FGYellow <<"\n\tEstado civil: " << blank << student.state << endl;
     cout << FGYellow <<"\n\tDireccion: "<< blank << student.address << endl;
