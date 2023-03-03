@@ -46,20 +46,21 @@ void DatosGenerales(){
 
         // show the name group
         system("figlet -c 'Grupo:'"); 
-        system("figlet -c 'Los hackers'");
+        system("figlet -c 'Byte Band'");
+
 
         // ask the information
-        cout << "Ingrese su nombre completo: "; getline(cin, student.nombre,'\n');
-        cout << "Ingrese su edad: "; cin >> student.age;
+        cout << "\n\tIngrese su nombre completo: "; getline(cin, student.nombre,'\n');
+        cout << "\n\tIngrese su edad: "; cin >> student.age;
         cin.ignore();
-        cout << "Ingrese su estado civil: "; getline(cin, student.state,'\n');
-        cout << "Ingrese su direccion "; getline(cin, student.address,'\n');
-        cout << "Ingrese su e-mail: "; getline(cin, student.email,'\n');
+        cout << "\n\tIngrese su estado civil: "; getline(cin, student.state,'\n');
+        cout << "\n\tIngrese su direccion "; getline(cin, student.address,'\n');
+        cout << "\n\tIngrese su e-mail: "; getline(cin, student.email,'\n');
         //sleep(3);
-        cout << "Ingrese su sede: "; getline(cin, student.sede,'\n');
-        cout << "Ingrese su carrera: "; getline(cin, student.career,'\n');
-        cout << "Ingrese su curso: "; getline(cin, student.course,'\n');
-        cout << "Ingrese su seccion: "; cin >> student.section;
+        cout << "\n\tIngrese su sede: "; getline(cin, student.sede,'\n');
+        cout << "\n\tIngrese su carrera: "; getline(cin, student.career,'\n');
+        cout << "\n\tIngrese su curso: "; getline(cin, student.course,'\n');
+        cout << "\n\tIngrese su seccion: "; cin >> student.section;
 
         // show the infomation
         ShowData(student);
@@ -90,15 +91,15 @@ void DatosGenerales(){
 void ShowData(BasicInformation student){
     system("clear"); // clear the terminal
 
-    system("figlet -c 'Datos generales'"); // show a message above of the information
+    system("figlet -c 'Registrado'"); // show a message above of the information
     cout<<" ---------------------------------------------------------------------------------"<<endl;
     cout << FGYellow <<"\tNombre completo: " << blank <<student.nombre << endl;
-    cout << FGYellow <<"\tEdad: " << blank << student.age << endl;
-    cout << FGYellow <<"\tEstado civil: " << blank << student.state << endl;
-    cout << FGYellow <<"\tDireccion: "<< blank << student.address << endl;
-    cout << FGYellow <<"\tSede: " << blank << student.sede << endl;
-    cout << FGYellow <<"\tCarrera: " << blank << student.career << endl;
-    cout << FGYellow <<"\tCurso: " << blank << student.course << endl;
-    cout << FGYellow <<"\tSección: " << blank << student.section << endl;
+    cout << FGYellow <<"\n\tEdad: " << blank << student.age << endl;
+    cout << FGYellow <<"\n\tEstado civil: " << blank << student.state << endl;
+    cout << FGYellow <<"\n\tDireccion: "<< blank << student.address << endl;
+    cout << FGYellow <<"\n\tSede: " << blank << student.sede << endl;
+    cout << FGYellow <<"\n\tCarrera: " << blank << student.career << endl;
+    cout << FGYellow <<"\n\tCurso: " << blank << student.course << endl;
+    cout << FGYellow <<"\n\tSección: " << blank << student.section << endl;
    
 }
