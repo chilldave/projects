@@ -1,6 +1,7 @@
 #include <iostream>
+#include <unistd.h>
 #include <string>
-
+#include "colors.h"
 using namespace std;
 
 // struct about of academic information
@@ -20,13 +21,13 @@ struct BasicInformation : AcademicInformation {
     string email;
 };
 
-
+//Function Prototype
 void DatosGenerales(); // function that ask the basic datas of the user
 void ShowData(BasicInformation student); // fuction that show the information of the user
 
 // function main that start our program
 int main(){
-
+    
     // invoque the function for the basic information
     DatosGenerales();
     
@@ -49,14 +50,12 @@ void DatosGenerales(){
 
         // ask the information
         cout << "Ingrese su nombre completo: "; getline(cin, student.nombre,'\n');
-
         cout << "Ingrese su edad: "; cin >> student.age;
         cin.ignore();
-
         cout << "Ingrese su estado civil: "; getline(cin, student.state,'\n');
         cout << "Ingrese su direccion "; getline(cin, student.address,'\n');
         cout << "Ingrese su e-mail: "; getline(cin, student.email,'\n');
-
+        //sleep(3);
         cout << "Ingrese su sede: "; getline(cin, student.sede,'\n');
         cout << "Ingrese su carrera: "; getline(cin, student.career,'\n');
         cout << "Ingrese su curso: "; getline(cin, student.course,'\n');
@@ -90,15 +89,16 @@ void DatosGenerales(){
 
 void ShowData(BasicInformation student){
     system("clear"); // clear the terminal
-    system("figlet -c 'Datos generales'"); // show a message above of the information
 
-    cout << "Nombre completo: " << student.nombre << endl;
-    cout << "Edad: " << student.age << endl;
-    cout << "Estado civil: " << student.state << endl;
-    cout << "Direccion: "<< student.address << endl;
-    cout << "Sede: " << student.sede << endl;
-    cout << "Carrera: " << student.career << endl;
-    cout << "Curso: " << student.course << endl;
-    cout << "Sección: " << student.section << endl;
+    system("figlet -c 'Datos generales'"); // show a message above of the information
+    cout<<" ---------------------------------------------------------------------------------"<<endl;
+    cout << FGYellow <<"\tNombre completo: " << blank <<student.nombre << endl;
+    cout << FGYellow <<"\tEdad: " << blank << student.age << endl;
+    cout << FGYellow <<"\tEstado civil: " << blank << student.state << endl;
+    cout << FGYellow <<"\tDireccion: "<< blank << student.address << endl;
+    cout << FGYellow <<"\tSede: " << blank << student.sede << endl;
+    cout << FGYellow <<"\tCarrera: " << blank << student.career << endl;
+    cout << FGYellow <<"\tCurso: " << blank << student.course << endl;
+    cout << FGYellow <<"\tSección: " << blank << student.section << endl;
    
 }
