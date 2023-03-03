@@ -1,5 +1,4 @@
 #include <iostream>
-#include <unistd.h>
 #include <string>
 #include "colors.h"
 using namespace std;
@@ -56,7 +55,6 @@ void DatosGenerales(){
         cout << "\n\tIngrese su estado civil: "; getline(cin, student.state,'\n');
         cout << "\n\tIngrese su direccion "; getline(cin, student.address,'\n');
         cout << "\n\tIngrese su e-mail: "; getline(cin, student.email,'\n');
-        //sleep(3);
         cout << "\n\tIngrese su sede: "; getline(cin, student.sede,'\n');
         cout << "\n\tIngrese su carrera: "; getline(cin, student.career,'\n');
         cout << "\n\tIngrese su curso: "; getline(cin, student.course,'\n');
