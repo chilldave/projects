@@ -89,7 +89,7 @@ void ShowData(BasicInformation student){
     system("clear"); // clear the terminal
 
     system("figlet -c 'Registrado'"); // show a message above of the information
-    cout<<" -----------------------------------------------------------------------------"<<endl;
+    cout<<" --------------------------------------------------------------------------"<<endl;
     cout << FGYellow <<"\tNombre completo: "<< blank <<student.nombre << endl;
     cout << FGYellow <<"\n\tEdad: " << blank << student.age << endl;
     cout << FGYellow <<"\n\tEstado civil: " << blank << student.state << endl;
