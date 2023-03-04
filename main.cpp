@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "colors.h"
+
 using namespace std;
 
 // struct about of academic information
@@ -26,7 +27,6 @@ void ShowData(BasicInformation student); // fuction that show the information of
 
 // function main that start our program
 int main(){
-    
     // invoque the function for the basic information
     DatosGenerales();
     
@@ -48,7 +48,7 @@ void DatosGenerales(){
         system("figlet -c 'Byte Band'");
 
         // ask the information
-        cout << FGYellow << "\n\tIngrese su nombre completo: "<< blank; getline(cin, student.nombre,'\n');
+        cout << FGYellow << "\n\tIngrese su nombre completo: "<< blank; getline(cin, student.nombre ,'\n');
         cout << FGYellow <<"\n\tIngrese su edad: "<< blank  ; cin >> student.age;
         cin.ignore();
         cout << FGYellow <<"\n\tIngrese su estado civil: "<< blank; getline(cin, student.state,'\n');
