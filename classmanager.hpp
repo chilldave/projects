@@ -8,14 +8,13 @@
 class ClassManager { 
   public:
     size_t x, y;
-    const int LIMIT = 25;
+    int LIMIT = 0;
 
-    std::vector<std::string>basic_information = {
-      "Nombre", "Edad", "Estado Civil", "Direccion", "Correo"
-    };
-    std::vector<std::string>academic_information = {
+    std::vector<std::string>headers = {
+      "Nombre", "Edad", "Estado Civil", "Direccion", "Correo",
       "Sede", "Carrera", "Curso", "Seccion"
     };
+
     std::vector<std::string>lines;
     std::string section;
 
@@ -24,7 +23,8 @@ class ClassManager {
     void start();
   protected:
     void statusbar();
-    void print_headers();
+    void print();
+    void sidebar();
     void text_insert(std::string, int);
     void input(int);
 
