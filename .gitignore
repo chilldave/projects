@@ -1,5 +1,5 @@
-main
-estructura.h
+classmanager
 demo.txt
-.vscode
-a.out
+.vscod
+*.o
+*.out
