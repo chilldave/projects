@@ -9,15 +9,17 @@ int main () {
 
   int c = 1;
 
-  for (std::string item : menu) {
-    std::printf("[%d] -> %s\n", c++, item.c_str());
+  while (true) {
+    for (std::string item : menu) {
+      std::printf("[%d] -> %s\n", c++, item.c_str());
+    }
+    std::printf("Seleccione (1-%d): ", menu.size()); std::cin >> opc;
+
+    std::vector<std::string>menu_selected = menu_controller.get_item_list(opc);
+
+    auto classmanager = std::make_shared<ClassManager>();
+    classmanager->start(menu_selected);
   }
-  std::printf("Seleccione (1-%d): ", menu.size()); std::cin >> opc;
-
-  std::vector<std::string>menu_selected = menu_controller.get_item_list(opc);
-
-  auto classmanager = std::make_shared<ClassManager>();
-  classmanager->start(menu_selected);
 
   return 0;
 }

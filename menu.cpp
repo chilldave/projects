@@ -9,11 +9,14 @@ menu::menu() {
     "Nombre", "Edad", "Estado Civil", "Direccion", "Correo",
     "Sede", "Carrera", "Curso", "Seccion"
   });
+  item_list.push_back({"Consulta -> id: "});
+  item_list.push_back({"Modificacion -> id: "});
+  item_list.push_back({"Eliminacion -> id: "});
 }
 menu::~menu() {
 
 }
-std::vector<std::string>menu::get_item_list (int index) {
+std::vector<std::string>menu::get_item_list(int index) {
   if ( index > item_list.size() or index < 0 ) {
     return {};
   }

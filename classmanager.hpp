@@ -9,6 +9,7 @@ class ClassManager {
   public:
     size_t x, y;
     int LIMIT = 0;
+    bool loop = true;
 
     std::vector<std::string>lines;
     std::string section;
@@ -25,6 +26,10 @@ class ClassManager {
 
     void text_erase(int);
     void m_tabs(std::string&);
+
+    void save();
+    void upload();
+    void remove();
 
     void right();
     void down();

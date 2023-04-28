@@ -17,7 +17,7 @@ ClassManager::~ClassManager() {
 }
 void ClassManager::start(std::vector<std::string>menu) {
   lines.push_back({});
-  while(true) {
+  while(loop) {
     statusbar();
     sidebar(menu);
     print();
@@ -104,9 +104,10 @@ void ClassManager::input(int c, int max_size_enter) {
     // these are for the enter key
     case KEY_ENTER:
     case 10:
-    if (y > max_size_enter) {
-      refresh();
+    if (y > max_size_enter-1) {
       endwin();
+      loop = false;
+      break;
     }
     if( x < lines[y].size() ) {
       text_insert(lines[y].substr(x, lines[y].length() - x), y + 1);
@@ -137,6 +138,10 @@ void ClassManager::text_insert(std::string line, int number) {
 }
 void ClassManager::text_erase(int number) {
   lines.erase(lines.begin() + number);
+}
+// functions to manage the datas in the file
+void ClassManager::save() {
+  std::printf("saved");
 }
 // this manage the key press DOWN, most used for the ENTER
 void ClassManager::down() {
