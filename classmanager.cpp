@@ -15,28 +15,28 @@ ClassManager::~ClassManager() {
   refresh();
   endwin();
 }
-void ClassManager::start() {
+void ClassManager::start(std::vector<std::string>menu) {
   lines.push_back({});
   while(true) {
     statusbar();
-    sidebar();
+    sidebar(menu);
     print();
     int c = getch();
-    input(c);
+    input(c, menu.size());
   }
 }
 // show the headers to insert datas
-void ClassManager::sidebar() {
-  for (auto i : headers) {
+void ClassManager::sidebar(std::vector<std::string>menu) {
+  for (auto i : menu) {
     if (i.length() >= LIMIT) LIMIT = i.length() + 2;
   }
 
   for (size_t i {}; i < (size_t)LINES - 1; i++) {
-    if (i >= headers.size()) {
+    if (i >= menu.size()) {
       move(i, 0);
       clrtoeol();
     } else {
-      mvprintw(i, 0, "%s: ", headers[i].c_str());
+      mvprintw(i, 0, "%s: ", menu[i].c_str());
     }
     clrtoeol();
   }
@@ -78,7 +78,7 @@ void ClassManager::statusbar() {
   attron(A_REVERSE);
 }
 // this manage the key press with the switch event
-void ClassManager::input(int c) {
+void ClassManager::input(int c, int max_size_enter) {
   switch (c) {
     case KEY_LEFT:
       return;
@@ -104,6 +104,10 @@ void ClassManager::input(int c) {
     // these are for the enter key
     case KEY_ENTER:
     case 10:
+    if (y > max_size_enter) {
+      refresh();
+      endwin();
+    }
     if( x < lines[y].size() ) {
       text_insert(lines[y].substr(x, lines[y].length() - x), y + 1);
       lines[y].erase(x, lines[y].length() - x);

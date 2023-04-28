@@ -10,23 +10,18 @@ class ClassManager {
     size_t x, y;
     int LIMIT = 0;
 
-    std::vector<std::string>headers = {
-      "Nombre", "Edad", "Estado Civil", "Direccion", "Correo",
-      "Sede", "Carrera", "Curso", "Seccion"
-    };
-
     std::vector<std::string>lines;
     std::string section;
 
     ClassManager();
     ~ClassManager();
-    void start();
+    void start(std::vector<std::string>);
   protected:
     void statusbar();
     void print();
-    void sidebar();
+    void sidebar(std::vector<std::string>);
     void text_insert(std::string, int);
-    void input(int);
+    void input(int, int);
 
     void text_erase(int);
     void m_tabs(std::string&);
