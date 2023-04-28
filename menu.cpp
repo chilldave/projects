@@ -9,9 +9,9 @@ menu::menu() {
     "Nombre", "Edad", "Estado Civil", "Direccion", "Correo",
     "Sede", "Carrera", "Curso", "Seccion"
   });
-  item_list.push_back({"Consulta -> id: "});
-  item_list.push_back({"Modificacion -> id: "});
-  item_list.push_back({"Eliminacion -> id: "});
+  item_list.push_back({"Consulta -> id"});
+  item_list.push_back({"Modificacion -> id"});
+  item_list.push_back({"Eliminacion -> id"});
 }
 menu::~menu() {
 

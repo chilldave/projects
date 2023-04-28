@@ -1,8 +1,9 @@
 #include "classmanager.hpp"
 
-ClassManager::ClassManager() {
+ClassManager::ClassManager(std::vector<std::vector<std::string>>item_list) {
   x = y = 0;
   section = "Class Manager | Grupo: Byte Band";
+  menu_list = item_list;
 
   initscr();
   noecho();
@@ -15,14 +16,14 @@ ClassManager::~ClassManager() {
   refresh();
   endwin();
 }
-void ClassManager::start(std::vector<std::string>menu) {
+void ClassManager::start(std::vector<std::string>menu, int opc) {
   lines.push_back({});
   while(loop) {
     statusbar();
     sidebar(menu);
     print();
     int c = getch();
-    input(c, menu.size());
+    input(c, menu.size(), opc);
   }
 }
 // show the headers to insert datas
@@ -56,7 +57,11 @@ void ClassManager::print() {
 }
 // this is the estatus bar, show the information about us and the clock
 void ClassManager::statusbar() {
-  init_pair(1, COLOR_GREEN, COLOR_BLACK);
+  if (alert_message.length() > 0) {
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+  } else {
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+  }
 
   time_t now = time(0);
   struct tm* timeinfo = localtime(&now);
@@ -72,21 +77,26 @@ void ClassManager::statusbar() {
   }
 
   mvprintw(LINES-1, 0, section.c_str());
+  mvprintw(LINES-1, section.length(), " | %s", alert_message.c_str());
 
   mvprintw(LINES-1, COLS-strlen(clock), "%s", clock);
-  attron(COLOR_PAIR(1));
-  attron(A_REVERSE);
+  attroff(COLOR_PAIR(1));
+  attroff(A_REVERSE);
 }
 // this manage the key press with the switch event
-void ClassManager::input(int c, int max_size_enter) {
+void ClassManager::input(int c, int max_size_enter, int number) {
   switch (c) {
     case KEY_LEFT:
+      left();
       return;
     case KEY_RIGHT:
+      right();
       return;
     case KEY_UP:
+      up();
       return;
     case KEY_DOWN:
+      if (y > max_size_enter-1) break;
       down();
       return;
   }
@@ -97,6 +107,7 @@ void ClassManager::input(int c, int max_size_enter) {
         x = lines[y - 1].length();
         lines[y - 1] += lines[y];
         text_erase(y);
+        up();
       } else if (x > 0) {
         lines[y].erase(--x, 1);
       }
@@ -105,8 +116,42 @@ void ClassManager::input(int c, int max_size_enter) {
     case KEY_ENTER:
     case 10:
     if (y > max_size_enter-1) {
-      endwin();
+      for (int i = 0; i<lines.size() - 1; i++) {
+        if (lines[i].length() < 1) {
+          alert_message = "Algunos datos no fueron validos!";
+          endwin();
+          lines.erase(lines.begin(), lines.end());
+          y = 0;
+          start(menu_list[number], number);
+          return;
+        } else {
+          alert_message = "";
+        }
+      }
+
+      if (number == -1) {
+        write_file();
+      }
+
+      if (number == 1) {
+        save_item();
+      }
+      
+      if (number == 2) {
+        get_item();
+      }
+
+      if (number == 3) {
+        update_item();
+      }
+
+      if (number == 4) {
+        remove_item();
+      }
+
       loop = false;
+      endwin();
+
       break;
     }
     if( x < lines[y].size() ) {
@@ -128,6 +173,7 @@ void ClassManager::input(int c, int max_size_enter) {
       x+=2;
     break;
     default: // this is for every key in the keyboard
+      if (y > max_size_enter-1) break;
       lines[y].insert(x, 1, c);
       x++;
   }
@@ -140,8 +186,78 @@ void ClassManager::text_erase(int number) {
   lines.erase(lines.begin() + number);
 }
 // functions to manage the datas in the file
-void ClassManager::save() {
+void ClassManager::save_item() {
+  const std::string charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  srand(time(nullptr));
+  std::string result;
+  int length = 5;
+  result.reserve(length);
+
+  for (int i = 0; i < length; i++) {
+      result += charset[rand() % charset.length()];
+  }
+
+  file = fopen(path_database, "a");
+  if (file == nullptr) {
+    // crear el archivo si no existe
+    file = fopen(path_database, "w");
+  }
+
+  // manipular el archivo ya que existe
+  std::fprintf(file, "%s,", result.c_str()); // for id
+
+  for (auto item : lines) {
+    std::fprintf(file, "%s,", item.c_str());
+  }
+
+  std::fprintf(file, "\n");
+
+  std::fclose(file);
+}
+void ClassManager::write_file() {
+  loop = false;
+  endwin();
   std::printf("saved");
+}
+void ClassManager::update_item() {
+  char buffer[255];
+  file = fopen(path_database, "r");
+  if (file == nullptr) {
+    file = fopen(path_database, "w");
+  }
+
+  while (std::fgets(buffer, sizeof(buffer), file)) {
+    std::string line(buffer);
+    std::string code = line.substr(0, 5);
+
+    if (code != lines[0]) continue;
+
+    endwin();
+    lines.erase(lines.begin(), lines.end());
+
+    std::stringstream ss(line);
+
+    while (ss.good()) {
+      std::string word;
+      std::getline(ss, word, ',');
+      lines.push_back(word);
+    }
+
+    lines.erase(lines.begin());
+
+    start(menu_list[1], -1);
+
+    break;
+  }
+
+
+  fclose(file);
+}
+void ClassManager::get_item() {
+  std::printf("reading\n");
+}
+void ClassManager::remove_item() {
+  std::printf("deleting\n");
 }
 // this manage the key press DOWN, most used for the ENTER
 void ClassManager::down() {
@@ -152,4 +268,26 @@ void ClassManager::down() {
     x = lines[y].length();
   }
   move(y, x);
+}
+void ClassManager::up() {
+  if (y > 0) {
+    y--;
+  }
+  if (x >= lines[y].length()) {
+    x = lines[y].length();
+  }
+
+  move(y, x);
+}
+void ClassManager::left() {
+  if (x > 0) {
+    x--;
+    move(y, x);
+  }
+}
+void ClassManager::right() {
+  if ((int)x <= COLS && x <= lines[y].length() - 1) {
+    x++;
+    move(y, x);
+  }
 }

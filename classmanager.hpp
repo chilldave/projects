@@ -1,36 +1,48 @@
 #include <ncurses.h>
 #include <memory>
-#include <string>
 #include <vector>
 #include <ctime>
 #include <cstring>
+#include <string>
+#include <stdio.h>
+#include <bits/stdc++.h>
+#include <iostream>
 
 class ClassManager { 
   public:
     size_t x, y;
     int LIMIT = 0;
     bool loop = true;
+    FILE *file;
 
+    std::string alert_message = "";
+    const char *path_database = "./database.csv";
+    std::vector<std::vector<std::string>>menu_list;
     std::vector<std::string>lines;
     std::string section;
 
-    ClassManager();
+    ClassManager(std::vector<std::vector<std::string>>);
     ~ClassManager();
-    void start(std::vector<std::string>);
+    void start(std::vector<std::string>, int);
   protected:
-    void statusbar();
     void print();
-    void sidebar(std::vector<std::string>);
-    void text_insert(std::string, int);
-    void input(int, int);
+    void write_file();
 
+    void statusbar();
+    void sidebar(std::vector<std::string>);
+
+    void text_insert(std::string, int);
+    void input(int, int, int);
     void text_erase(int);
     void m_tabs(std::string&);
 
-    void save();
-    void upload();
-    void remove();
+    void save_item();
+    void update_item();
+    void remove_item();
+    void get_item();
 
     void right();
     void down();
+    void up();
+    void left();
 };
