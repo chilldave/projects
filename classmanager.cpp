@@ -5,23 +5,7 @@ ClassManager::ClassManager(std::vector<std::vector<std::string>>item_list) {
   section = "Class Manager | Grupo: Byte Band";
   menu_list = item_list;
 
-  file = fopen(path_database, "r");
-  if (file == nullptr) {
-    file = fopen(path_database, "w");
-  }
-
-  while (std::fgets(buffer, sizeof(buffer), file)) {
-    std::string line = buffer;
-    std::istringstream ss(line);
-    std::string word;
-    std::vector<std::string>tmp;
-    while (std::getline(ss, word, ',')) {
-      tmp.push_back(word);
-    }
-    data_list.push_back(tmp);
-    tmp.erase(tmp.begin(), tmp.end());
-  }
-  fclose(file);
+  get_file();
 
   initscr();
   noecho();
@@ -34,6 +18,28 @@ ClassManager::ClassManager(std::vector<std::vector<std::string>>item_list) {
 ClassManager::~ClassManager() {
   refresh();
   endwin();
+}
+void ClassManager::get_file() {
+  file = fopen(path_database, "r");
+  if (file == nullptr) {
+    file = fopen(path_database, "w");
+  }
+
+  while (std::fgets(buffer, sizeof(buffer), file)) {
+    std::string line = buffer;
+    std::istringstream ss(line);
+    std::string word;
+    std::vector<std::string>tmp;
+    while (std::getline(ss, word, ',')) {
+      if (word != "") {
+        if (word.length() == 0 or word.length() == 1) continue;
+        tmp.push_back(word);
+      }
+    }
+    data_list.push_back(tmp);
+    tmp.erase(tmp.begin(), tmp.end());
+  }
+  fclose(file);
 }
 void ClassManager::start(std::vector<std::string>menu, int opc) {
   lines.push_back({});
@@ -162,10 +168,14 @@ void ClassManager::input(int c, int max_size_enter, int number) {
 
       if (number == 3) {
         update_item();
+        write_file();
+        get_file();
       }
 
       if (number == 4) {
         remove_item();
+        write_file();
+        get_file();
       }
 
       loop = false;
@@ -226,7 +236,7 @@ void ClassManager::save_item() {
   std::fprintf(file, "%s,", result.c_str()); // for id
 
   for (auto item : lines) {
-    std::fprintf(file, "%s,", item.c_str());
+    if (item != "") std::fprintf(file, "%s,", item.c_str());
   }
 
   std::fprintf(file, "\n");
@@ -238,33 +248,65 @@ void ClassManager::write_file() {
 
   for (auto row : data_list) {
     for (auto item : row) {
-      std::fprintf(file, "%s,", item.c_str());
+      if (item != "" or item.length() != 0 or item.length() != 1)
+        std::fprintf(file, "%s,", item.c_str());
     }
     std::fprintf(file, "\n");
+  }
+  if (!lines.empty()) std::fprintf(file, "%s,", code.c_str());
+  for (auto item : lines) {
+    if (item != "" or item.length() != 1)
+      std::fprintf(file, "%s,", item.c_str());
   }
 
   fclose(file);
 }
-void ClassManager::update_item() {
+void ClassManager::remove_item() {
+  int i_row = 0;
   for (auto row : data_list) {
-    std::string code = lines[0];
+    code = lines[0];
     bool valid = false;
     for (auto item : row) {
       if (code != item) continue;
-      std::printf("%s", item.c_str());
       valid = true;
     }
 
     if (valid) {
       endwin();
 
+      data_list[i_row].erase(data_list[i_row].begin(), data_list[i_row].end());
+      lines.erase(lines.begin(), lines.end());
+
+      break;
+    }
+    i_row++;
+  }
+}
+void ClassManager::update_item() {
+  int i_row = 0;
+  for (auto row : data_list) {
+    code = lines[0];
+    bool valid = false;
+    for (auto item : row) {
+      if (code != item) continue;
+      valid = true;
+    }
+
+    if (valid) {
+      endwin();
+
+      data_list[i_row].erase(data_list[i_row].begin(), data_list[i_row].end());
       lines.erase(lines.begin(), lines.end());
 
       for (auto item : row) {
-        lines.push_back(item);
+        if (item != "" or item.length() != 0 or item.length() != 1) lines.push_back(item);
       }
       lines.erase(lines.begin());
+      start(menu_list[1], 0);
+      break;
     }
+
+    i_row++;
   }
 }
 void ClassManager::get_item() {
@@ -282,16 +324,13 @@ void ClassManager::get_item() {
       lines.erase(lines.begin(), lines.end());
 
       for (auto item : row) {
-        lines.push_back(item);
+        if (item != "" or item.length() != 0 or item.length() != 1) lines.push_back(item);
       }
       lines.erase(lines.begin());
       start(menu_list[1], 0);
       break;
     }
   }
-}
-void ClassManager::remove_item() {
-  std::printf("deleting\n");
 }
 // this manage the key press DOWN, most used for the ENTER
 void ClassManager::down() {

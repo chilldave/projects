@@ -16,8 +16,10 @@ class ClassManager {
     bool loop = true;
     FILE *file;
 
+    std::string code;
     std::string alert_message = "";
     const char *path_database = "./database.csv";
+
     std::vector<std::vector<std::string>>menu_list;
     std::vector<std::vector<std::string>>data_list;
     std::vector<std::string>lines;
@@ -29,6 +31,7 @@ class ClassManager {
   protected:
     void print();
     void write_file();
+    void get_file();
 
     void statusbar();
     void sidebar(std::vector<std::string>);

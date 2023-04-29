@@ -21,7 +21,7 @@ int main () {
 
     if (opc == 5) break;
 
-    if (opc < 0 or opc > 4) {
+    if (opc <= 0 or opc > 4) {
       std::printf("\n\tIngresa un numero valido en el rango (1-5)!\n");
       continue;
     }
