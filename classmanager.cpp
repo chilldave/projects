@@ -5,12 +5,31 @@ ClassManager::ClassManager(std::vector<std::vector<std::string>>item_list) {
   section = "Class Manager | Grupo: Byte Band";
   menu_list = item_list;
 
+  file = fopen(path_database, "r");
+  if (file == nullptr) {
+    file = fopen(path_database, "w");
+  }
+
+  while (std::fgets(buffer, sizeof(buffer), file)) {
+    std::string line = buffer;
+    std::istringstream ss(line);
+    std::string word;
+    std::vector<std::string>tmp;
+    while (std::getline(ss, word, ',')) {
+      tmp.push_back(word);
+    }
+    data_list.push_back(tmp);
+    tmp.erase(tmp.begin(), tmp.end());
+  }
+  fclose(file);
+
   initscr();
   noecho();
   cbreak();
   keypad(stdscr, true);
   use_default_colors();
   start_color();
+  use_default_colors();
 }
 ClassManager::~ClassManager() {
   refresh();
@@ -215,46 +234,61 @@ void ClassManager::save_item() {
   std::fclose(file);
 }
 void ClassManager::write_file() {
-  loop = false;
-  endwin();
-  std::printf("saved");
-}
-void ClassManager::update_item() {
-  char buffer[255];
-  file = fopen(path_database, "r");
-  if (file == nullptr) {
-    file = fopen(path_database, "w");
-  }
+  file = fopen(path_database, "w");
 
-  while (std::fgets(buffer, sizeof(buffer), file)) {
-    std::string line(buffer);
-    std::string code = line.substr(0, 5);
-
-    if (code != lines[0]) continue;
-
-    endwin();
-    lines.erase(lines.begin(), lines.end());
-
-    std::stringstream ss(line);
-
-    while (ss.good()) {
-      std::string word;
-      std::getline(ss, word, ',');
-      lines.push_back(word);
+  for (auto row : data_list) {
+    for (auto item : row) {
+      std::fprintf(file, "%s,", item.c_str());
     }
-
-    lines.erase(lines.begin());
-
-    start(menu_list[1], -1);
-
-    break;
+    std::fprintf(file, "\n");
   }
-
 
   fclose(file);
 }
+void ClassManager::update_item() {
+  for (auto row : data_list) {
+    std::string code = lines[0];
+    bool valid = false;
+    for (auto item : row) {
+      if (code != item) continue;
+      std::printf("%s", item.c_str());
+      valid = true;
+    }
+
+    if (valid) {
+      endwin();
+
+      lines.erase(lines.begin(), lines.end());
+
+      for (auto item : row) {
+        lines.push_back(item);
+      }
+      lines.erase(lines.begin());
+    }
+  }
+}
 void ClassManager::get_item() {
-  std::printf("reading\n");
+  for (auto row : data_list) {
+    std::string code = lines[0];
+    bool valid = false;
+    for (auto item : row) {
+      if (code != item) continue;
+      valid = true;
+    }
+
+    if (valid) {
+      endwin();
+
+      lines.erase(lines.begin(), lines.end());
+
+      for (auto item : row) {
+        lines.push_back(item);
+      }
+      lines.erase(lines.begin());
+      start(menu_list[1], 0);
+      break;
+    }
+  }
 }
 void ClassManager::remove_item() {
   std::printf("deleting\n");

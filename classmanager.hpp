@@ -10,6 +10,7 @@
 
 class ClassManager { 
   public:
+    char buffer[255];
     size_t x, y;
     int LIMIT = 0;
     bool loop = true;
@@ -18,6 +19,7 @@ class ClassManager {
     std::string alert_message = "";
     const char *path_database = "./database.csv";
     std::vector<std::vector<std::string>>menu_list;
+    std::vector<std::vector<std::string>>data_list;
     std::vector<std::string>lines;
     std::string section;
 
